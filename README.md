@@ -1,54 +1,134 @@
-<header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>መልካም እድል</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background: #2c2c4a;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+    .numbers {
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+    .numbers span {
+      background: #ffcc00;
+      color: #000;
+      padding: 15px 20px;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #ffcc00;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #e6b800;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-size: 16px;
+    }
+    select {
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: #fff;
+      color: #000;
+      margin-bottom: 20px;
+    }
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>መልካም እድል</h1>
+    <p>ከ0-9 ቁጥር ውስጥ አንዱን ይምረጡ እና "አውጣ" ይጫኑ!</p>
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
+    <label for="userNumber">የእርስዎ ቁጥር:</label>
+    <select id="userNumber">
+      <script>
+        for (let i = 0; i <= 9; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
+    </select>
 
-# GitHub Pages
+    <div id="lotteryNumbers" class="numbers"></div>
+    <p id="result"></p>
+    <button onclick="generateLottery()">አውጣ</button>
+  </div>
 
-_Create a site or blog from your GitHub repositories with GitHub Pages._
+  <script>
+    function generateLottery() {
+      const numberContainer = document.getElementById('lotteryNumbers');
+      const resultDisplay = document.getElementById('result');
+      const userPick = parseInt(document.getElementById('userNumber').value);
 
-</header>
+      numberContainer.innerHTML = '';
+      resultDisplay.textContent = '';
 
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
+      let numbers = [];
+      while (numbers.length < 3) {
+        let randomNum = Math.floor(Math.random() * 10);
+        if (!numbers.includes(randomNum)) {
+          numbers.push(randomNum);
+        }
+      }
 
-## Step 1: Enable GitHub Pages
+      numbers.forEach(num => {
+        const span = document.createElement('span');
+        span.textContent = num;
+        numberContainer.appendChild(span);
+      });
 
-_Welcome to GitHub Pages and Jekyll :tada:!_
-
-The first step is to enable GitHub Pages on this [repository](https://docs.github.com/en/get-started/quickstart/github-glossary#repository). When you enable GitHub Pages on a repository, GitHub takes the content that's on the main branch and publishes a website based on its contents.
-
-### :keyboard: Activity: Enable GitHub Pages
-
-1. Open a new browser tab, and work on the steps in your second tab while you read the instructions in this tab.
-1. Under your repository name, click **Settings**.
-1. Click **Pages** in the **Code and automation** section.
-1. Ensure "Deploy from a branch" is selected from the **Source** drop-down menu, and then select `main` from the **Branch** drop-down menu.
-1. Click the **Save** button.
-1. Wait about _one minute_ then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
-   > Turning on GitHub Pages creates a deployment of your repository. GitHub Actions may take up to a minute to respond while waiting for the deployment. Future steps will be about 20 seconds; this step is slower.
-   > **Note**: In the **Pages** of **Settings**, the **Visit site** button will appear at the top. Click the button to see your GitHub Pages site.
-
-<footer>
-
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
-
----
-
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/github-pages) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
-</footer>
+      if (userPick === numbers[0]) {
+        resultDisplay.textContent = "እንኳን ደስ አለዎት! $1000 አሸነፉ!";
+      } else if (userPick === numbers[1]) {
+        resultDisplay.textContent = "እንኳን ደስ አለዎት! $100 አሸነፉ!";
+      } else if (userPick === numbers[2]) {
+        resultDisplay.textContent = "እንኳን ደስ አለዎት! $50 አሸነፉ!";
+      } else {
+        resultDisplay.textContent = "ይቅርታ፣ አልተመሳሰሉም። እንደገና ይሞክሩ!";
+      }
+    }
+  </script>
+</body>
+</html>
